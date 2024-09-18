@@ -34,21 +34,21 @@ $= 3$ + $(4log_2 n)/n \leq c$
 
 ### Question 2 :
 
-Show that $4n^3 + 8n^2 + 2n$ = $Ω ( )$. 
+Show that $4n^3 + 8n^2 + 2^n$ = $Ω ( )$. 
 Please find the maximum order for the big-Ω estimation. 
 Please also provide the values of c and n0 satisfying the definition of the big-Ω estimation. (20分)
 
 #### Answer :
 
 根據 Big-Ω 的定義，當 $f(x) \geq c*g(x)$ 時， $f(x) = Ω(g(x))$
-由於題目所求為 **maximum order** 所以我們先假設 $g(x)$ 為 $n^3$ 
-(因為 $deg(f(x)) = 3$)
+由於題目所求為 **maximum order** 所以我們先假設 $g(x)$ 為 $2^n$ 
+(因為 $4n^3 + 8n^2 + 2^n$ 中 $2^n$ 的成長速度最快)
 
-$4n^3 + 8n^2 + 2n$ $\geq cn^3$
-$=4 + 8/n + 2/n^2 \geq c$ 
-此時若我們設 $c = 3$
-$n >= 1$ , $4 + 8/n + 2/n^2 \geq 3$
-因此當 $c = 3$ 時 , $n0 = 1$
+$4n^3 + 8n^2 + 2^n$ $\geq 2^n$
+$= 4n^3/2^n + 8n^2/2^n + 1 \geq c$ 
+此時若我們設 $c = 1$
+$n >= 0$ , $4n^3/2^n + 8n^2/2^n + 1 \geq 1$
+因此當 $c = 1$ 時 , $n0 = 0$
 
 ### Question 3 :
 
@@ -103,12 +103,12 @@ for (int i = 1; i < n; i++) {
 
 ```cpp=
 // code                            Freq              Total Steps
-for (int i = 1; i < n; i++) {       n                     n
-    i *= k;                         n-1                   n-1
+for (int i = 1; i < n; i++) {     logn / logk          logn / logk
+    i *= k;                         1                  logn / logk
 }
 ```
 
-Therefore, the time complexity = $n-1$ = $O(n)$
+Therefore, the time complexity = $logn / logk$ = $O(log_k n)$
 
 #### 4-3 :
 
