@@ -158,5 +158,9 @@ Therefore, the time complexity = $log(n)*(n/2)$ = $O(nlogn)$
 中秋節快樂 (⁠ ⁠╹⁠▽⁠╹⁠ ⁠)
 
 
+ <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+    </script>
 
 
