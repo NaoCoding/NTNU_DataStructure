@@ -28,7 +28,7 @@ Since $(log_2 n)/n \leq 1$ , $3$ + $(4log_2 n)/n \leq 7$
 <br> Therefore, when $c = 7$ , $3n^2$ + $2n log_2 n^2 \leq cn^2$ <br>
 Any $n0$ which satisfy $n \geq n0$ , $(log_2 n)/n \leq 1$ can be answer
     
-It proves that $3n^2$ + $2n log_2 n^2 \leq cn^2$ is valid and $c$ , $n0$ can be found. <br>
+It proves that $3n^2$ + $2n log_2 n^2 \leq cn^2$ is valid and $c$ , $n0$ = 1. <br>
 which means $3n^2$ + $2n log_2 n^2 = O(n^2)$
 
 ### Question 2 :
@@ -47,7 +47,7 @@ $4n^3 + 8n^2 + 2^n$ $\geq 2^n$
 $= 4n^3/2^n + 8n^2/2^n + 1 \geq c$ <br>
 If we set $c = 1$
 $n >= 0$ , $4n^3/2^n + 8n^2/2^n + 1 \geq 1$
-Therefore when $c = 1$  , $n0 = 0$ <br>
+Therefore when $c = 1$  , $n0 = 1$ <br>
 
 ### Question 3 :
 
