@@ -29,3 +29,5 @@ For example :
 
 if $a(x) = 4x^3 + 2x + 1$ , $b(x) = 3x^3 + 3x^2 + 3$
 then the amounts of terms with different exponents will be 4, since $D(x)$ will be $7x^3 + 3x^2 + 2x + 4$, and we can see that the amounts of terms with different exponents will be 4.
+
+
