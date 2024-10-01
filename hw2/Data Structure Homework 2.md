@@ -23,11 +23,21 @@ According to the padd() function in the picture, <br>we can see that it will kee
 
 We can see the switch 0 : <br> It will attach both $a(x)$ and $b(x)$ if the highest exponents of $a(x)$ and $b(x)$ is same.
 
-Therefore, we can conclude that the while loop will execute the amounts of terms with different exponents from $D(x),  (D(x) = a(x) + b(x))$.
+On the other hand, if the highesting exponents of $a(x)$ and $b(x)$ is different, it will attach the higher one.    
+
+Therefore, the total execute time will depends on the amounts of terms in $D(x)$ ($D(x) = a(x) + b(x)$) <br> which $\ge max(smallest_{exponent}a(x) , smallest_{exponent}b(x))$
+
+The remaining terms will be execute after the while loop.
+
+
 
 For example : 
 
-if $a(x) = 4x^3 + 2x + 1$ , $b(x) = 3x^3 + 3x^2 + 3$
-then the amounts of terms with different exponents will be 4, since $D(x)$ will be $7x^3 + 3x^2 + 2x + 4$, and we can see that the amounts of terms with different exponents will be 4.
+if $a(x) = 4x^3 + 2x^2 + x$ , $b(x) = 3x^3 + 3x^2 + 3$
+then the $max(smallest_{exponent}a(x) , smallest_{exponent}b(x))$ will be $1$ since the smallest exponent of $a(x) = 1$ , $b(x) = 0$
+
+According to my conclusion above, the total execute time will be the amounts of exponents which $\ge 1$
+
+The amounts of exponents which $\ge 1$ is $\set{3 , 2 , 1} = 3$
 
 
