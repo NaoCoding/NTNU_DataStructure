@@ -64,7 +64,7 @@ The amounts of exponents which $\ge 1$ is $3$
 **If the matrix A is a m * n matrix and matrix B is a n * k matrix, how many times of the instruction “i = row_begin;” is executed?**
 
 Since the question does not imply "Before row_begin in assigned a new value", therefore, the answer = numbers of rows in A which has nonzero element * number of cols in B which has nonzero element.
-
+Therefore, the answer will be range from $0$ ~ $m*k$.
 
 ### Question 2(d)
 
