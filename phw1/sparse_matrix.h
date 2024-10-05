@@ -35,14 +35,14 @@ matrix* create_sparseMatrix(uint32_t row , uint32_t col);
 //the return value can check if the element is being added successfully
 // 0 : success and no cover old value, 1 : success but cover old value, 2 : error(out of range)
 // 3 : error(invalid pointer), 4 : error(unexcepted error from copying matrix)
-int8_t addElement_sparseMatrix(matrix * matrixToAdd , 
+int8_t addElement_sparseMatrix(matrix ** matrixToAdd , 
         uint32_t target_row , uint32_t target_col , long double target_value);
 
 //this function is to copy all the element from matrixToCopy to matrixToApply
 //the return value can check if the elements are being copied successfully
 // 0 : success and no error, 1 : error( sizeof(matrixToApply) < sizeof(matrixToCopy) ),
 // 2 : error( one of row,col of(matrixToCopy) > row,col of(matrixToApply) ), 3 : error(invalid pointer)
-int8_t copyMatrix_sparseMatrix(matrix * matrixToCopy , matrix * matrixToApply);
+int8_t copyMatrix_sparseMatrix(matrix ** matrixToCopy , matrix ** matrixToApply);
 
 //this function display the current sparse matrix
 void display_sparseMatrix(matrix * target_matrix);
