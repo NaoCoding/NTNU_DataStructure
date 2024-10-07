@@ -17,26 +17,32 @@ Functions :
 GitHub Repo releases after homework deadline.
 */
 
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
+#define u32 uint32_t
+
 //basic structure of sparse matrix
 typedef struct _matrix{
     long double value;
-    uint32_t row, col;
+    u32 row, col;
 } matrix;
 
 //this function will return a pointer pointing to a new empty sparse matrix
 //which means it will return a matrix* with sizeof 1, matrix[0] = {row,col,0}
-matrix* create_sparseMatrix(uint32_t row , uint32_t col);
+matrix* create_sparseMatrix(u32 row , u32 col);
+
+//this function turns a long double arr[][] to sparse matrix
+matrix * createFromArr_sparseMatrix(long double ** arr, u32 row , u32 col);
 
 //this function will add new element to the target matrix, (pointer type)
 //the return value can check if the element is being added successfully
 // 0 : success and no cover old value, 1 : success but cover old value, 2 : error(out of range)
 // 3 : error(invalid pointer), 4 : error(unexcepted error from copying matrix)
 int8_t addElement_sparseMatrix(matrix ** matrixToAdd , 
-        uint32_t target_row , uint32_t target_col , long double target_value);
+        u32 target_row , u32 target_col , long double target_value);
 
 //this function is to copy all the element from matrixToCopy to matrixToApply
 //the return value can check if the elements are being copied successfully
@@ -46,6 +52,12 @@ int8_t copyMatrix_sparseMatrix(matrix ** matrixToCopy , matrix ** matrixToApply)
 
 //this function display the current sparse matrix
 void display_sparseMatrix(matrix * target_matrix);
+
+//this function return the value of target_matrix[row][col]
+long double valueOf_sparseMatrix(matrix * target_matrix , u32 row , u32 col);
+
+
+
 
 
 #endif

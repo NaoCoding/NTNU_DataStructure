@@ -10,10 +10,17 @@ int main(){
     }   
     */
 
-   matrix * a = create_sparseMatrix(5 , 3);
+   long double ** b = calloc(5 , sizeof(long double *));
+   for(u32 i=0;i<5;i++){
+    b[i] = calloc(3 , sizeof(long double));
+   }
+   b[0][2] = 3.2;
+   b[1][1] = 7;
+   b[2][0] = 3;
+   b[3][1] = 3;
+   b[2][2] = 4;
+
+   matrix * a = createFromArr_sparseMatrix(b,5,3);
    display_sparseMatrix(a);
-   printf("%u\n" , addElement_sparseMatrix(&a , 3 , 3 , 10.3));
-   display_sparseMatrix(a);
-   //free(a);
 
 }
