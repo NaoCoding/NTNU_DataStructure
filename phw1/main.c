@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "sparse_matrix.h"
+#include <math.h>
 #define START_UP 1
 #define clear() printf("\e[1;1H\e[2J")
 
@@ -151,6 +152,50 @@ int main(){
             getchar();
 
         }
+        else if(command == 5){
+            clear();
+            printf("----------------------------------------------\n");
+            printf("Data Structure Programming Homework I\n");
+            printf("Student ID : 41247001S\n");
+            printf("----------------------------------------------\n");
+
+            if(!didSetUp){
+                printf("Setup matrices in order to calculate the result.\n");
+            }
+            else{
+                matrix * result1 = multiply_sparseMatrix(W,X);
+                matrix * result2 = multiply_sparseMatrix(W,X);
+            
+                if(!result1 || !result2){
+                    printf("The matrices cannot multiply!\n");
+                }
+                else{
+                    if(add_sparseMatrix(B , &result1) || add_sparseMatrix(B , &result2)){
+                        printf("The row and col of B and W*X are not the same!\n");
+                    }
+                    else{
+                        printf("Result Matrix with ReLU activative function : \n");
+                        for(u32 i=1;i<=result1[0].value;i++){
+                            result1[i].value = result1[i].value > 0 ? result1[i].value : 0;
+                        }
+                        display_sparseMatrix(result1);
+                        printf("Result Matrix with Sigmoid activative function : \n");
+                        for(u32 i=1;i<=result2[0].value;i++){
+                            result2[i].value = 1/(1+exp(result2[i].value));
+                        }
+                        display_sparseMatrix(result2);
+                        free(result1); free(result2);
+                    }
+
+                    
+                }
+            }
+
+            printf("----------------------------------------------\n");
+            printf("Press Enter to back to menu ...\n");
+            getchar();
+            getchar();
+        }
 
     }
    free(Z); free(X); free(W); free(B);
@@ -169,55 +214,13 @@ void displayUI(){
     printf("2. Search specific row and col in sparse matrices.\n");
     printf("3. See every current Matrices.\n");
     printf("4. Show the result of calculation.\n");
+    printf("5. Show the result of calculation with ReLU/Sigmoid activation function.\n");
     printf("----------------------------------------------\n");
     printf("Your command : ");
 
 
 }
 
-void EXAMPLE(){
-    long double ** b = calloc(5 , sizeof(long double *));
-   for(u32 i=0;i<5;i++){
-    b[i] = calloc(3 , sizeof(long double));
-   }
-
-
-   b[0][2] = 3.2;
-   b[1][1] = 7;
-   b[2][0] = 3;
-   b[3][1] = 3;
-   b[2][2] = 4;
-
-   long double ** c = calloc(3 , sizeof(long double *));
-   for(u32 i=0;i<3;i++){
-    c[i] = calloc(5 , sizeof(long double));
-   }
-
-   c[0][0] = 6.3;
-   c[1][1] = 2;
-   c[2][0] = 4;
-   c[2][4] = 3;
-
-
-   matrix * a = createFromArr_sparseMatrix(b,5,3);
-   //display_sparseMatrix(a);
-   matrix * cc = createFromArr_sparseMatrix(c , 3 , 5);
-   matrix* n = multiply_sparseMatrix(a , cc);
-   display_sparseMatrix(a);
-   display_sparseMatrix(cc);
-   //display_sparseMatrix(transpose_sparseMatrix(cc));
-   display_sparseMatrix(n);
-
-    free(n);
-   free(cc);
-   free(a);
-   for(u32 i=0;i<5;i++){
-    free(b[i]); if(i < 3)free(c[i]);
-   }
-
-   free(b);
-   free(c);
-}
 
 /*
 5 3
