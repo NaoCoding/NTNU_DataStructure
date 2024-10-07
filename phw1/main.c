@@ -24,9 +24,9 @@ int main(){
         displayUI();
         scanf("%u" , &command);
 
-        if(!command || command > 5) continue;
-
-        if(command == 1){
+        if(command > 6) continue;
+        if(!command) break;
+        else if(command == 1){
 
             if(didSetUp) free(W); free(X); free(B);
             didSetUp = 1;
@@ -53,8 +53,55 @@ int main(){
                 for(u32 i = 0;i<row;i++) free(temp[i]); free(temp);
             }
         }
-
         else if(command == 2){
+            if(didSetUp) free(W); free(X); free(B);
+            didSetUp = 1;
+            for(u32 t = 0; t < 3 ; t ++){
+                clear();
+                printf("----------------------------------------------\n");
+                printf("Data Structure Programming Homework I\n");
+                printf("Student ID : 41247001S\n");
+                printf("----------------------------------------------\n");
+                printf("Matrix %c : \n",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
+                printf("Enter the row and col of the matrix %c :",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
+                u32 row , col , val;
+                scanf("%u", &row);
+                scanf("%u" , &col);
+                
+                printf("Enter the value of matrix[0] : \n");
+                scanf("%u" , &val);
+
+                if(!t){
+                    W = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&W , r ,c ,v);
+                    }
+                }
+                else if(t == 1){
+                    X = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&X , r ,c ,v);
+                    }
+                }
+                else{
+                    B = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&B , r ,c ,v);
+                    }
+                }
+            }
+        }
+
+        else if(command == 3){
             
             if(!didSetUp){
                 printf("You should setup the matrice before searching\n");
@@ -94,7 +141,7 @@ int main(){
 
 
 
-        else if(command == 3){
+        else if(command == 4){
             clear();
             printf("----------------------------------------------\n");
             printf("Data Structure Programming Homework I\n");
@@ -114,7 +161,7 @@ int main(){
             getchar();
         }
 
-        else if(command == 4){
+        else if(command == 5){
 
             clear();
             printf("----------------------------------------------\n");
@@ -152,7 +199,7 @@ int main(){
             getchar();
 
         }
-        else if(command == 5){
+        else if(command == 6){
             clear();
             printf("----------------------------------------------\n");
             printf("Data Structure Programming Homework I\n");
@@ -211,10 +258,12 @@ void displayUI(){
     printf("Student ID : 41247001S\n");
     printf("----------------------------------------------\n");
     printf("1. Setup Matrices by entering normal matrix terms.\n");
-    printf("2. Search specific row and col in sparse matrices.\n");
-    printf("3. See every current Matrices.\n");
-    printf("4. Show the result of calculation.\n");
-    printf("5. Show the result of calculation with ReLU/Sigmoid activation function.\n");
+    printf("2. Setup Matrices by entering sparse matrix terms.\n");
+    printf("3. Search specific row and col in sparse matrices.\n");
+    printf("4. See every current Matrices.\n");
+    printf("5. Show the result of calculation.\n");
+    printf("6. Show the result of calculation with ReLU/Sigmoid activation function.\n");
+    printf("0. Exit the program.\n");
     printf("----------------------------------------------\n");
     printf("Your command : ");
 

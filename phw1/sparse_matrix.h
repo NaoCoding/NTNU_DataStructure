@@ -12,6 +12,10 @@ Functions :
         create empty matrix
         add element to matrix 
         copy elements to matrix_b from matrix_a
+        transpose matrix
+        multiply two matrices
+        add matrices
+        create sparse matrix from normal array.
         
 
 GitHub Repo releases after homework deadline.

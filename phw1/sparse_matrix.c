@@ -11,6 +11,10 @@ Functions :
         create empty matrix
         add element to matrix 
         copy elements to matrix_b from matrix_a
+        transpose matrix
+        multiply two matrices
+        add matrices
+        create sparse matrix from normal array.
         
 
 GitHub Repo releases after homework deadline.
@@ -253,7 +257,7 @@ void display_sparseMatrix(matrix * target_matrix){
     printf("Matrix Size: %ux%u , Sparse Matrix Size: %u\n",
             target_matrix[0].row , target_matrix[0].col , (u32)target_matrix[0].value);
     for(u32 i = 1;i<=target_matrix[0].value;i++){
-        printf("%5u%5u%10LF\n",target_matrix[i].row,target_matrix[i].col,target_matrix[i].value);
+        printf("%6s%-5u%-5u%-10LF\n","     ",target_matrix[i].row,target_matrix[i].col,target_matrix[i].value);
     }
 
 }
