@@ -26,21 +26,49 @@ GitHub Repo releases after homework deadline.
 //this is the function sparse_matrix_add(Y,B) in NTNU_DataStructure Programming Homework 1
 u8 add_sparseMatrix(matrix * matrixToAdd , matrix ** matrixToApply){
 
+    if((*matrixToApply)[0].row != matrixToAdd[0].row) return 1;
+    if((*matrixToApply)[0].col != matrixToAdd[0].col) return 1;
+
     u32 total = 0;
 
-    u32 matrixToAdd_index = 1 , matrixToApply_index = 1;
+    u32 i1 = 1 , i2 = 1;
 
-    while(matrixToAdd_index <= matrixToAdd[0].value && matrixToApply_index <= (*matrixToApply)[0].value){
+    while(i1 <= matrixToAdd[0].value && i2 <= (*matrixToApply)[0].value){
 
-        
-
+        if(matrixToAdd[i1].row == (*matrixToApply)[i2].row){
+            if(matrixToAdd[i1].col == (*matrixToApply)[i2].col){
+                total += 1;
+                i1 ++ ; i2 ++;
+            }
+            else if(matrixToAdd[i1].col < (*matrixToApply)[i2].col){
+                total += 1;
+                i1 ++;
+            }
+            else{
+                i2 ++;
+                total += 1;
+            }
+        }
+        else if(matrixToAdd[i1].row < (*matrixToApply)[i2].row){
+            total += 1;
+            i1 ++;
+        }
+        else{
+            total += 1;
+            i2 ++;
+        }
+    
     }
+    for(;i1 <= matrixToAdd[0].value;i1++) total++;
+    for(;i2 <= (*matrixToApply)[0].value;i2++) total++;
+
+    i1 = 1; i2 = 1;
+
 
 
 
     /*
-    if((*matrixToApply)[0].row != matrixToAdd[0].row) return 1;
-    if((*matrixToApply)[0].col != matrixToAdd[0].col) return 1;
+    
 
     for(u32 i = 1 ; i <= matrixToAdd[0].value ; i ++){
         if(addValue_sparseMatrix(matrixToApply , 
