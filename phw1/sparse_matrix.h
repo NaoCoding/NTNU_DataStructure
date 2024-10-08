@@ -39,6 +39,10 @@ typedef struct _matrix{
 //which means it will return a matrix* with sizeof 1, matrix[0] = {row,col,0}
 matrix* create_sparseMatrix(u32 row , u32 col);
 
+//this function will append the matrix taret to the matrixToApply
+// 0 : success , 1 : error(null pointer)
+u8 append_sparseMatrix(matrix ** matrixToApply , matrix target);
+
 
 //this function return a trasportation of the matrix
 matrix * transpose_sparseMatrix(matrix * matrixTotranspose);

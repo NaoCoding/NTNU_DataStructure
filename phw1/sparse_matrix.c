@@ -42,6 +42,24 @@ u8 add_sparseMatrix(matrix * matrixToAdd , matrix ** matrixToApply){
 
 }
 
+//this function will append the matrix taret to the matrixToApply
+// 0 : success , 1 : error(null pointer)
+u8 append_sparseMatrix(matrix ** matrixToApply , matrix target){
+
+    if(!(*matrixToApply)) return 1;
+
+    matrix * mN = (matrix *)(calloc((*matrixToApply)[0].value + 2 , sizeof(matrix)));
+    for(u32 i=0;i<=(*matrixToApply)[0].value;i++){
+        mN[i] = (*matrixToApply)[i];
+        if(!i) mN[i].value += 1;
+    }
+    mN[(u32)mN[0].value] = target;
+
+    free(*matrixToApply);
+    *matrixToApply = mN;
+    return 0;
+}
+
 
 
 //this function will return a sparse matrix with A*B
