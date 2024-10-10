@@ -22,13 +22,13 @@ int main(){
         
         u8 command;
         displayUI();
-        scanf("%u" , &command);
+        scanf("%hhu" , &command);
 
-        if(command > 6) continue;
+        if(command > 8) continue;
         if(!command) break;
         else if(command == 1){
 
-            if(didSetUp) free(W); free(X); free(B);
+            //if(didSetUp) free(W); free(X); free(B);
             didSetUp = 1;
             for(u32 t = 0; t < 3 ; t ++){
                 clear();
@@ -54,7 +54,7 @@ int main(){
             }
         }
         else if(command == 2){
-            if(didSetUp) free(W); free(X); free(B);
+            //if(didSetUp) free(W); free(X); free(B);
             didSetUp = 1;
             for(u32 t = 0; t < 3 ; t ++){
                 clear();
@@ -63,12 +63,10 @@ int main(){
                 printf("Student ID : 41247001S\n");
                 printf("----------------------------------------------\n");
                 printf("Matrix %c : \n",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
-                printf("Enter the row and col of the matrix %c :",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
+                printf("Enter the matrix[0] (row,col,value) of the matrix %c :",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
                 u32 row , col , val;
                 scanf("%u", &row);
                 scanf("%u" , &col);
-                
-                printf("Enter the value of matrix[0] : \n");
                 scanf("%u" , &val);
 
                 if(!t){
@@ -227,10 +225,46 @@ int main(){
                         }
                         display_sparseMatrix(result1);
                         printf("Result Matrix with Sigmoid activative function : \n");
+
+                        
+                        
+                        u32 total = result2[0].row * result2[0].col;
                         for(u32 i=1;i<=result2[0].value;i++){
-                            result2[i].value = 1/(1+exp(result2[i].value));
+
+                            result2[i].value = 1/(1+exp(-result2[i].value));
+                            if(result2[i].value == 0) total -= 1;
+
                         }
-                        display_sparseMatrix(result2);
+
+                        printf("Matrix Size: %ux%u , Sparse Matrix Size: %u\n",
+                                result2[0].row , result2[0].col , total);
+
+                        u32 index = 1;
+                        
+                        for(u32 i=0;i<result2[0].row;i++){
+                            for(u32 j=0;j<result2[0].col;j++){
+
+                                if(index <= result2[0].value){
+                                    if(result2[index].row == i && result2[index].col == j
+                                    ){
+                                        if(result2[index].value != 0)
+                                            printf("%6s%-5u%-5u%-10LF\n","     ",result2[index].row,result2[index].col,result2[index].value);
+                                        index ++;
+                                        while(result2[index].value == 0) index ++;
+                                    }
+
+                                    else{
+                                        printf("%6s%-5u%-5u%-10F\n","     ",i,j,0.5);
+                                    }
+                                }
+                                else{
+                                    printf("%6s%-5u%-5u%-10F\n","     ",i,j,0.5);
+                                }
+
+                            }
+                        }
+                        
+                        
                         free(result1); free(result2);
                     }
 
@@ -243,9 +277,258 @@ int main(){
             getchar();
             getchar();
         }
+        else if(command == 7){
+            //if(didSetUp) free(W); free(X); free(B);
+            didSetUp = 1;
+            u32 times;
+            clear();
+            printf("----------------------------------------------\n");
+            printf("Data Structure Programming Homework I\n");
+            printf("Student ID : 41247001S\n");
+            printf("----------------------------------------------\n");
+            printf("Enter how many W,B matrices :");
+            scanf("%u" , &times);
+            if(times<1) break;
+            for(u32 t = 0; t < 3 ; t ++){
+                clear();
+                printf("----------------------------------------------\n");
+                printf("Data Structure Programming Homework I\n");
+                printf("Student ID : 41247001S\n");
+                printf("----------------------------------------------\n");
+                printf("Matrix %c : \n",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
+                printf("Enter the row and col of the matrix %c :",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
+                u32 row , col;
+                scanf("%u", &row);
+                scanf("%u" , &col);
+                long double ** temp = (long double **)(calloc(row , sizeof(long *)));
+                for(u32 i = 0;i<row;i++) temp[i] = (long double *)(calloc(col,sizeof(long double)));
+                printf("Enter the whole matrix : \n");
+                for(u32 i=0;i<row;i++){
+                    for(u32 j=0;j<col;j++) scanf("%LF",&temp[i][j]);
+                }
+                if(!t) W = createFromArr_sparseMatrix(temp , row , col);
+                else if(t == 1) X = createFromArr_sparseMatrix(temp , row , col);
+                else B = createFromArr_sparseMatrix(temp , row , col);
+                for(u32 i = 0;i<row;i++) free(temp[i]); free(temp);
+            }
+
+            matrix * result = multiply_sparseMatrix(W,X);
+            
+            if(!result){
+                printf("The matrices cannot multiply!\n");
+            }
+            else{
+                if(add_sparseMatrix(B , &result)){
+                    printf("The row and col of B and W*X are not the same!\n");
+                }
+                else{
+                    printf("Result Matrix : \n");
+                    display_sparseMatrix(result);
+                    free(result);
+                }
+
+                
+            }
+
+            X = result;
+
+            for(;times>1;times--){
+                printf("----------------------------------------------\n");
+                printf("Press Enter to continue the next time ...\n");
+                getchar();
+                getchar();
+                 for(u32 t = 0; t < 2 ; t ++){
+                    clear();
+                    printf("----------------------------------------------\n");
+                    printf("Data Structure Programming Homework I\n");
+                    printf("Student ID : 41247001S\n");
+                    printf("----------------------------------------------\n");
+                    printf("Matrix %c : \n",(!t ? 'W' : ('B')));
+                    printf("Enter the row and col of the matrix %c :",(!t ? 'W' : ('B')));
+                    u32 row , col;
+                    scanf("%u", &row);
+                    scanf("%u" , &col);
+                    long double ** temp = (long double **)(calloc(row , sizeof(long *)));
+                    for(u32 i = 0;i<row;i++) temp[i] = (long double *)(calloc(col,sizeof(long double)));
+                    printf("Enter the whole matrix : \n");
+                    for(u32 i=0;i<row;i++){
+                        for(u32 j=0;j<col;j++) scanf("%LF",&temp[i][j]);
+                    }
+                    if(!t) W = createFromArr_sparseMatrix(temp , row , col);
+                    else B = createFromArr_sparseMatrix(temp , row , col);
+                    for(u32 i = 0;i<row;i++) free(temp[i]); free(temp);
+                }
+
+                matrix * result = multiply_sparseMatrix(W,X);
+                
+                if(!result){
+                    printf("The matrices cannot multiply!\n");
+                }
+                else{
+                    if(add_sparseMatrix(B , &result)){
+                        printf("The row and col of B and W*X are not the same!\n");
+                    }
+                    else{
+                        printf("Result Matrix : \n");
+                        display_sparseMatrix(result);
+                        free(result);
+                    }
+
+                    
+                }
+
+                X = result;
+            }
+
+            printf("----------------------------------------------\n");
+            printf("Press Enter to back to menu ...\n");
+            getchar();
+            getchar();
+            
+
+        }
+        else if(command == 8){
+            ////if(didSetUp) free(W); free(X); free(B);
+            didSetUp = 1;
+            u32 times;
+            clear();
+            printf("----------------------------------------------\n");
+            printf("Data Structure Programming Homework I\n");
+            printf("Student ID : 41247001S\n");
+            printf("----------------------------------------------\n");
+            printf("Enter how many W,B matrices :");
+            scanf("%u" , &times);
+            if(times<1) break;
+            for(u32 t = 0; t < 3 ; t ++){
+                clear();
+                printf("----------------------------------------------\n");
+                printf("Data Structure Programming Homework I\n");
+                printf("Student ID : 41247001S\n");
+                printf("----------------------------------------------\n");
+                printf("Matrix %c : \n",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
+                printf("Enter the matrix[0] (row,col,value) of the matrix %c :",(!t ? 'W' : (t == 1 ? 'X' : 'B')));
+                u32 row , col , val;
+                scanf("%u", &row);
+                scanf("%u" , &col);
+                scanf("%u" , &val);
+
+                if(!t){
+                    W = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&W , r ,c ,v);
+                    }
+                }
+                else if(t == 1){
+                    X = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&X , r ,c ,v);
+                    }
+                }
+                else{
+                    B = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&B , r ,c ,v);
+                    }
+                }
+            }
+
+            matrix * result = multiply_sparseMatrix(W,X);
+            
+            if(!result){
+                printf("The matrices cannot multiply!\n");
+            }
+            else{
+                if(add_sparseMatrix(B , &result)){
+                    printf("The row and col of B and W*X are not the same!\n");
+                }
+                else{
+                    printf("Result Matrix : \n");
+                    display_sparseMatrix(result);
+                    free(result);
+                }
+
+                
+            }
+
+            X = result;
+
+            for(;times>1;times--){
+                 printf("----------------------------------------------\n");
+                printf("Press Enter to continue the next time ...\n");
+                getchar();
+                getchar();
+                 for(u32 t = 0; t < 2 ; t ++){
+                    clear();
+                    printf("----------------------------------------------\n");
+                    printf("Data Structure Programming Homework I\n");
+                    printf("Student ID : 41247001S\n");
+                    printf("----------------------------------------------\n");
+                    printf("Matrix %c : \n",(!t ? 'W' : ('B')));
+                printf("Enter the matrix[0] (row,col,value) of the matrix %c :",(!t ? 'W' : ('B')));
+                u32 row , col , val;
+                scanf("%u", &row);
+                scanf("%u" , &col);
+                scanf("%u" , &val);
+
+                if(!t){
+                    W = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&W , r ,c ,v);
+                    }
+                }
+                else{
+                    B = create_sparseMatrix(row , col);
+                    for(u32 i = 1;i<=val;i++){
+                        long double v;
+                        u32 r,c;
+                        scanf("%u %u %LF",&r,&c,&v);
+                        addElement_sparseMatrix(&B , r ,c ,v);
+                    }
+                }
+                }
+
+                matrix * result = multiply_sparseMatrix(W,X);
+                
+                if(!result){
+                    printf("The matrices cannot multiply!\n");
+                }
+                else{
+                    if(add_sparseMatrix(B , &result)){
+                        printf("The row and col of B and W*X are not the same!\n");
+                    }
+                    else{
+                        printf("Result Matrix : \n");
+                        display_sparseMatrix(result);
+                        free(result);
+                    }
+
+                    
+                }
+                X = result;
+            }
+
+            printf("----------------------------------------------\n");
+            printf("Press Enter to back to menu ...\n");
+            getchar();
+            getchar();
+            
+
+        }
 
     }
-   free(Z); free(X); free(W); free(B);
+   //free(Z); free(X); free(W); free(B);
 
 }
 
@@ -262,7 +545,9 @@ void displayUI(){
     printf("3. Search specific row and col in sparse matrices.\n");
     printf("4. See every current Matrices.\n");
     printf("5. Show the result of calculation.\n");
-    printf("6. Show the result of calculation with ReLU/Sigmoid activation function.\n");
+    printf("6. Bonus: Show the result of calculation with ReLU/Sigmoid activation function.\n");
+    printf("7. Bonus: Multiple Matrice(W,B) by entering normal matrix terms.\n");
+    printf("8. Bonus: Multiple Matrice(W,B) by entering sparse matrix terms.\n");
     printf("0. Exit the program.\n");
     printf("----------------------------------------------\n");
     printf("Your command : ");

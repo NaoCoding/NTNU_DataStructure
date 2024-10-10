@@ -20,9 +20,6 @@ How to use my code?
 After downloading the source folder, just enter make in terminal.
 ./matrix will be the command for opening the application.
 
-I have also checked the potential memory leak issues, 
-for cybersecurity and for user's pc env safety.
-
 Example of normal matrix term
 5 3 //row , col
 0 2 3
