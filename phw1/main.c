@@ -320,11 +320,12 @@ int main(){
             else{
                 if(add_sparseMatrix(B , &result)){
                     printf("The row and col of B and W*X are not the same!\n");
+                    break;
                 }
                 else{
                     printf("Result Matrix : \n");
                     display_sparseMatrix(result);
-                    free(result);
+                    
                 }
 
                 
@@ -367,11 +368,12 @@ int main(){
                 else{
                     if(add_sparseMatrix(B , &result)){
                         printf("The row and col of B and W*X are not the same!\n");
+                        break;
                     }
                     else{
                         printf("Result Matrix : \n");
                         display_sparseMatrix(result);
-                        free(result);
+                        
                     }
 
                     
@@ -453,7 +455,7 @@ int main(){
                 else{
                     printf("Result Matrix : \n");
                     display_sparseMatrix(result);
-                    free(result);
+                    
                 }
 
                 
@@ -511,7 +513,7 @@ int main(){
                     else{
                         printf("Result Matrix : \n");
                         display_sparseMatrix(result);
-                        free(result);
+                        
                     }
 
                     

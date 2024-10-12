@@ -26,6 +26,9 @@ GitHub Repo releases after homework deadline.
 //this is the function sparse_matrix_add(Y,B) in NTNU_DataStructure Programming Homework 1
 u8 add_sparseMatrix(matrix * matrixToAdd , matrix ** matrixToApply){
 
+    if((*matrixToApply)[0].row != matrixToAdd[0].row) return 1;
+    if((*matrixToApply)[0].col != matrixToAdd[0].col) return 1;
+
     for(u32 i = 1 ; i <= matrixToAdd[0].value ; i ++){
         if(addValue_sparseMatrix(matrixToApply , 
         matrixToAdd[i].row , matrixToAdd[i].col , 
