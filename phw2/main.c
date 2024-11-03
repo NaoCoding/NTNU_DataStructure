@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
 
 #include "IO.h" // input/output parse file
-#include "DEBUG.h" // debug file
 #include "UI.h" // ui file
 #include "LINKLIST.h" // link list library
-
+#include "DEBUG.h" // debug file
 
 #define RUNNING while(1)
 
 
-char initial_string[2000];
+node * MAIN_NODE;
+char INPUT_LIST[2005];
 
 
 int main(){
@@ -18,24 +20,55 @@ int main(){
     CLEAR
     FOOTER
     START_MESSAGE
-    readline(initial_string , 2000);
+    
+    //readline(INPUT_LIST , 2000);
+    
+    
+    /* detect error function
+    while(readline(INPUT_LIST , 2000)){
+        CLEAR
+        FOOTER
+        START_ERROR_MESSAGE
+        START_MESSAGE
+        //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
+    }
+    */
 
-    node * p = (node *)calloc(2 , sizeof(node));
-    p[1].val = 'A';
-    p[0].val = 'B';
+    while(readline(INPUT_LIST , 2000)){
+        CLEAR
+        FOOTER
+        START_ERROR_MESSAGE
+        START_MESSAGE
+        //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
+    }
 
-    append(&p[0] , &p[1]);
+    
+    
+    //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
 
-    printf("%d" , p[0].right.val);
+    if(Arr2LinkList(&MAIN_NODE , INPUT_LIST , strlen(INPUT_LIST)) != strlen(INPUT_LIST)){
+        ERROR
+        return 0;
+    }
 
+    node * cursor = (node *)(calloc(1,sizeof(node)));
+    cursor->val = '|';
 
-    /*
+    append(MAIN_NODE , cursor);
+
+    //DEBUG_LINKLIST_DISPLAY(MAIN_NODE);
+
+    //breakpoint
+    
     RUNNING{
         CLEAR
         FOOTER
-        readline(initial_string , 2000);
+        COMMAND_MESSAGE
+        DISPLAY_CURRENT(MAIN_NODE);
+        readline(INPUT_LIST , 2000);
+        COMMAND(INPUT_LIST , strlen(INPUT_LIST));
     }
-    */
+    
     
 
 }
