@@ -8,31 +8,20 @@
 #include "LINKLIST.h" // link list library
 #include "DEBUG.h" // debug file
 
+#define u64 uint64_t
+
 #define RUNNING while(1)
 
 
 node * MAIN_NODE;
 char INPUT_LIST[2005];
-
+u64 cursor_index;
 
 int main(){
 
     CLEAR
     FOOTER
     START_MESSAGE
-    
-    //readline(INPUT_LIST , 2000);
-    
-    
-    /* detect error function
-    while(readline(INPUT_LIST , 2000)){
-        CLEAR
-        FOOTER
-        START_ERROR_MESSAGE
-        START_MESSAGE
-        //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
-    }
-    */
 
     while(readline(INPUT_LIST , 2000)){
         CLEAR
@@ -42,9 +31,6 @@ int main(){
         //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
     }
 
-    
-    
-    //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
 
     if(Arr2LinkList(&MAIN_NODE , INPUT_LIST , strlen(INPUT_LIST)) != strlen(INPUT_LIST)){
         ERROR
@@ -56,9 +42,7 @@ int main(){
 
     append(MAIN_NODE , cursor);
 
-    //DEBUG_LINKLIST_DISPLAY(MAIN_NODE);
-
-    //breakpoint
+    cursor_index = strlen(INPUT_LIST);
     
     RUNNING{
         CLEAR
@@ -68,7 +52,5 @@ int main(){
         readline(INPUT_LIST , 2000);
         COMMAND(INPUT_LIST , strlen(INPUT_LIST));
     }
-    
-    
 
 }
