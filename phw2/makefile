@@ -6,3 +6,6 @@ all:
 test:
 	gcc main.c -o ./result -lm
 	./result
+
+clean:
+	rm ./result
