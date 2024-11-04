@@ -16,6 +16,9 @@ Other Valid Character : insert a character (ex. enter A = insert A , valid for a
 \e[0m"\
 );
 
+#define UNDO_EMPTY printf("\e[1;31mError : Undo Stack is Empty!\nEnter to Continue...\e[0m\n");
+#define COMMAND_EMPTY printf("\e[1;31mError : Command Stack is Empty!\nEnter to Continue...\e[0m\n");
+
 #define CLEAR printf("\e[H\e[2J");
 
 #define FOOTER printf( \

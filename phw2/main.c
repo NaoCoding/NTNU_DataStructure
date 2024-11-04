@@ -49,7 +49,7 @@ int main(){
         FOOTER
         COMMAND_MESSAGE
         DISPLAY_CURRENT(MAIN_NODE);
-        DEBUG_LINKLIST_DISPLAY(MAIN_NODE);
+        //DEBUG_LINKLIST_DISPLAY(MAIN_NODE);
         
         while(!readlineCommand(INPUT_LIST , 2000)){
             CLEAR
@@ -60,7 +60,8 @@ int main(){
             COMMAND_ERROR_MESSAGE
             //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
         }
-        COMMAND(INPUT_LIST , strlen(INPUT_LIST) , &MAIN_NODE , &command_history , &undo_history);
+
+        COMMAND(INPUT_LIST , strlen(INPUT_LIST) , &MAIN_NODE , &command_history , &undo_history , 0);
         
     }
 

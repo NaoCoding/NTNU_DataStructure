@@ -3,7 +3,10 @@
 
 #define bool uint8_t
 #define i64 int64_t
-#define breakpoint scanf("%c");
+
+char breakpointer;
+
+#define breakpoint scanf("%c" , &breakpointer);
 
 bool INPUT_VALID(char target);
 bool INPUT_RETURN(char target);
