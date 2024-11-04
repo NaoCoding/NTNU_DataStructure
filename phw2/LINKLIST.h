@@ -5,7 +5,7 @@
 #define i64 int64_t
 
 
-#define INPUT_LARGER_THAN_1_ERROR printf("\e[1;31mError : Input length should be 1\e[0m\n");
+#define INPUT_LARGER_THAN_1_ERROR printf("\e[1;31mError : Input length should be 1!\nPress Enter to Continue.\e[0m\n");
 
 typedef struct _LINKLIST{
     char val;
@@ -17,16 +17,118 @@ void append(node * left , node * right);
 bool Arr2LinkList(node ** start_position , char target[] , i64 size);
 void _LINKLIST_DISPLAY(node * start);
 void DISPLAY_CURRENT(node * start);
-void COMMAND(char target[] , i64 size);
+void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** undo);
+node * getCursor();
 
-void COMMAND(char target[] , i64 size){
+void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** undo){
 
     if(size!=1){
+        printf("%d" , size);
         INPUT_LARGER_THAN_1_ERROR
+        breakpoint
         return;
     }
 
-    if(target[0] == '1')
+    if(t[0] == '1'){
+
+        node * target = getCursor(*main_node);
+        if(target == NULL) return;
+        if(target->left == NULL) return;
+        else{
+            
+            node * nRight = target->left;
+            nRight->right = target->right;
+            target->left = nRight->left;
+            target->right = nRight;
+            nRight->left = target;
+            if(target->left) target->left->right = target;
+            else *main_node = target;
+            if(nRight->right) nRight->right->left = nRight;
+            
+        }
+
+        stack_push('1' , cmd);
+
+    }
+
+    else if(t[0] == '2'){
+
+        node * target = getCursor(*main_node);
+        if(target == NULL) return;
+        if(target->right == NULL) return;
+        else{
+            
+            node * nLeft = target->right;
+            nLeft->left = target->left;
+            target->right = nLeft->right;
+            target->left = nLeft;
+            nLeft->right = target;
+            if(target->right) target->right->left = target;
+            
+            if(nLeft->left) nLeft->left->right = nLeft;
+            else *main_node = nLeft;
+            
+        }
+
+        stack_push('2' , cmd);
+
+    }
+
+    else if(t[0] == '0'){
+
+        node * target = getCursor(*main_node);
+        if(!(target->right)) return;
+        char deleted_char = target->right->val;
+
+        node * temp = target->right;
+        target->right = temp->right;
+        if(target->right)
+        target->right->left = target;
+        free(temp);
+         
+
+        
+
+        stack_push('0' , cmd);
+        stack_push(deleted_char , cmd);
+
+    }
+
+    else if(t[0] == '9'){
+
+        node * target = getCursor(*main_node);
+        if(!(target->left)){
+            return;
+        }
+        char deleted_char = target->left->val;
+
+        node * temp = target->left;
+        target->left = temp->left;
+        if(temp->left)
+        target->left->right = target;
+        free(temp);
+        
+
+        
+
+        stack_push('9' , cmd);
+        stack_push(deleted_char , cmd);
+
+    }
+
+    else return;
+
+}
+
+
+node * getCursor(node * target){
+
+    node * cur = target;
+    while(cur){
+        if(cur->val == '|') return cur;
+        cur = cur->right;
+    }
+    return NULL;
 
 }
 
@@ -59,7 +161,6 @@ bool Arr2LinkList(node ** start_position , char target[] , i64 size){
         cur = cur->right;
         cur->val = target[Arr_IDX++];
         //DEBUG_NODE(cur);
-
     }
 
     

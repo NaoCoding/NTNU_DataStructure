@@ -5,6 +5,7 @@
 
 #include "IO.h" // input/output parse file
 #include "UI.h" // ui file
+#include "STACK.h" // stack library
 #include "LINKLIST.h" // link list library
 #include "DEBUG.h" // debug file
 
@@ -14,8 +15,9 @@
 
 
 node * MAIN_NODE;
+stack * command_history;
+stack * undo_history;
 char INPUT_LIST[2005];
-u64 cursor_index;
 
 int main(){
 
@@ -23,7 +25,7 @@ int main(){
     FOOTER
     START_MESSAGE
 
-    while(readline(INPUT_LIST , 2000)){
+    while(!readline(INPUT_LIST , 2000)){
         CLEAR
         FOOTER
         START_ERROR_MESSAGE
@@ -41,16 +43,25 @@ int main(){
     cursor->val = '|';
 
     append(MAIN_NODE , cursor);
-
-    cursor_index = strlen(INPUT_LIST);
     
     RUNNING{
         CLEAR
         FOOTER
         COMMAND_MESSAGE
         DISPLAY_CURRENT(MAIN_NODE);
-        readline(INPUT_LIST , 2000);
-        COMMAND(INPUT_LIST , strlen(INPUT_LIST));
+        DEBUG_LINKLIST_DISPLAY(MAIN_NODE);
+        
+        while(!readlineCommand(INPUT_LIST , 2000)){
+            CLEAR
+            FOOTER
+            
+            COMMAND_MESSAGE
+            DISPLAY_CURRENT(MAIN_NODE);
+            COMMAND_ERROR_MESSAGE
+            //DEBUG_INPUT_LIST(INPUT_LIST , strlen(INPUT_LIST));
+        }
+        COMMAND(INPUT_LIST , strlen(INPUT_LIST) , &MAIN_NODE , &command_history , &undo_history);
+        
     }
 
 }

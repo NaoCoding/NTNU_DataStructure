@@ -8,10 +8,38 @@
 bool INPUT_VALID(char target);
 bool INPUT_RETURN(char target);
 bool readline(char target[] , int size);
+bool readlineCommand(char target[] , int size);
 i64 i64len(i64 target[]);
+
+bool readlineCommand(char * target , int size){
+
+    bool validVersion = 1;
+
+    for(int i=0;i<size;i++) target[i] = 0;
+
+    int idx = 0;
+    while(idx < size){
+
+        char t;
+        scanf("%c" , &t);
+
+        //printf("%d" , INPUT_VALID(t));
+    
+        if(INPUT_VALID(t) ||('4' >= t && t >= '0') || t == '9')target[idx++] = t;
+        else if(INPUT_RETURN(t))break;
+        else validVersion = 0;
+        
+    }
+    //breakpoint
+
+    return validVersion;
+
+}
 
 
 bool readline(char * target , int size){
+
+    bool validVersion = 1;
 
     for(int i=0;i<size;i++) target[i] = 0;
 
@@ -24,15 +52,13 @@ bool readline(char * target , int size){
         //printf("%d" , INPUT_VALID(t));
     
         if(INPUT_VALID(t))target[idx++] = t;
-        else if(INPUT_RETURN(t)){
-            break;
-        }
-        else return 1;
+        else if(INPUT_RETURN(t))break;
+        else validVersion = 0;
         
     }
     //breakpoint
 
-    return 0;
+    return validVersion;
 
 }
 
