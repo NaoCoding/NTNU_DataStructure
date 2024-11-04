@@ -48,7 +48,7 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
         }
 
         if(!mode) stack_push('1' , cmd);
-        else stack_push('1' , undo);
+        else if(mode==1) stack_push('1' , undo);
 
     }
 
@@ -72,7 +72,7 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
         }
 
         if(!mode) stack_push('2' , cmd);
-        else stack_push('2' , undo);
+        else if(mode==1) stack_push('2' , undo);
 
     }
 
@@ -101,9 +101,9 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
 
         
         if(!mode) stack_push(deleted_char , cmd);
-        else stack_push(deleted_char , undo);
+        else if(mode==1) stack_push(deleted_char , undo);
         if(!mode) stack_push('0' , cmd);
-        else stack_push('0' , undo);
+        else if(mode==1) stack_push('0' , undo);
 
     }
 
@@ -144,9 +144,9 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
 
         
         if(!mode) stack_push(deleted_char , cmd);
-        else stack_push(deleted_char , undo);
+        else if(mode==1) stack_push(deleted_char , undo);
         if(!mode) stack_push('9' , cmd);
-        else stack_push('9' , undo);
+        else if(mode==1) stack_push('9' , undo);
 
     }
 
@@ -167,7 +167,7 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
 
 
         if(!mode) stack_push(t[0] , cmd);
-        else stack_push(t[0] , undo);
+        else if(mode==1) stack_push(t[0] , undo);
 
     }
 
@@ -179,7 +179,25 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
 
         char ToDo = stack_pop(undo);
         if(ToDo == '0' || ToDo == '9'){
-            
+
+            char * target_char = calloc(1, sizeof(char));
+            target_char[0] = stack_pop(undo);
+
+            if(ToDo == '0'){
+                COMMAND(target_char , 1 , main_node , cmd , undo ,2);
+                COMMAND("1" , 1 , main_node , cmd , undo , 2);
+            }
+            else{
+                COMMAND(target_char , 1 , main_node , cmd , undo ,2);
+                COMMAND("2" , 1 , main_node , cmd , undo , 2);
+            }
+            free(target_char);
+        }
+
+        else if(ToDo == '1') COMMAND("2" , 1 , main_node , cmd , undo , 2);
+        else if(ToDo == '2') COMMAND("1" , 1 , main_node , cmd , undo , 2);
+        else if(INPUT_VALID(ToDo)){
+            COMMAND("9" , 1 , main_node , cmd , undo , 2);
         }
 
     }
