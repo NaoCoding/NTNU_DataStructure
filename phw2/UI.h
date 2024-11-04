@@ -12,6 +12,7 @@
 3 : Redo\n\
 4 : Undo\n\
 9 : Backspace\n\
+ESC + enter : exit the program\n\
 Other Valid Character : insert a character (ex. enter A = insert A , valid for a/A-z/Z and space)\n\
 \e[0m"\
 );

@@ -29,6 +29,8 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
         return;
     }
 
+    if(t[0] == 27) exit(0);
+
     if(t[0] == '1'){
 
         node * target = getCursor(*main_node);

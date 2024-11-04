@@ -5,11 +5,15 @@
 Student ID: 41247001S
 姓名：盧昱安
 
+Developed in linux env, suggest using this application in linux/unix env.
+There's a makefile so just "make" and open the ./result
+
 ## Functions
 
 完成所有要求的功能
 以 double-link-list 作為當前 string 狀態的存儲
 以 stack 紀錄 command history 和 undo history
+
 
 ## 檔案架構
 

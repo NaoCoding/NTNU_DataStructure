@@ -28,7 +28,7 @@ bool readlineCommand(char * target , int size){
 
         //printf("%d" , INPUT_VALID(t));
     
-        if(INPUT_VALID(t) ||('4' >= t && t >= '0') || t == '9')target[idx++] = t;
+        if(INPUT_VALID(t) ||('4' >= t && t >= '0') || t == '9' || t == 27)target[idx++] = t;
         else if(INPUT_RETURN(t))break;
         else validVersion = 0;
         

@@ -6,6 +6,7 @@
 
 void DEBUG_INPUT_LIST(char input[] , i64 size);
 void DEBUG_LINKLIST_DISPLAY(node * start);
+void DEBUG_STACK_DISPLAY(stack * start);
 
 
 void DEBUG_INPUT_LIST(char input[] , i64 size){
@@ -14,6 +15,15 @@ void DEBUG_INPUT_LIST(char input[] , i64 size){
 
 }
 
+void DEBUG_STACK_DISPLAY(stack * start){
+    stack * cur = start;
+    while(cur){
+        printf("%c" , cur->val);
+        cur = cur->next;
+    }
+    printf("\n");
+
+}
 
 void DEBUG_LINKLIST_DISPLAY(node * start){
     node * cur = start;
