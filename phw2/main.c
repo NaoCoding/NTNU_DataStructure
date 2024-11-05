@@ -50,8 +50,8 @@ int main(){
         COMMAND_MESSAGE
         DISPLAY_CURRENT(MAIN_NODE);
         //DEBUG_LINKLIST_DISPLAY(MAIN_NODE);
-        DEBUG_STACK_DISPLAY(command_history);
-        DEBUG_STACK_DISPLAY(undo_history);
+        //DEBUG_STACK_DISPLAY(command_history);
+        //DEBUG_STACK_DISPLAY(undo_history);
         
         while(!readlineCommand(INPUT_LIST , 2000)){
             CLEAR

@@ -49,8 +49,7 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
             
         }
 
-        if(!mode) stack_push('1' , cmd);
-        else if(mode==1) stack_push('1' , undo);
+        if(!(mode%2)) stack_push('1' , cmd);
 
     }
 
@@ -73,8 +72,7 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
             
         }
 
-        if(!mode) stack_push('2' , cmd);
-        else if(mode==1) stack_push('2' , undo);
+        if(!(mode%2)) stack_push('2' , cmd);
 
     }
 
@@ -102,10 +100,8 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
         
 
         
-        if(!mode) stack_push(deleted_char , cmd);
-        else if(mode==1) stack_push(deleted_char , undo);
-        if(!mode) stack_push('0' , cmd);
-        else if(mode==1) stack_push('0' , undo);
+        if(!(mode%2)) stack_push(deleted_char , cmd);
+        if(!(mode%2)) stack_push('0' , cmd);
 
     }
 
@@ -145,10 +141,8 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
         
 
         
-        if(!mode) stack_push(deleted_char , cmd);
-        else if(mode==1) stack_push(deleted_char , undo);
-        if(!mode) stack_push('9' , cmd);
-        else if(mode==1) stack_push('9' , undo);
+        if(!(mode%2)) stack_push(deleted_char , cmd);
+        if(!(mode%2)) stack_push('9' , cmd);
 
     }
 
@@ -168,8 +162,8 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
 
 
 
-        if(!mode) stack_push(t[0] , cmd);
-        else if(mode==1) stack_push(t[0] , undo);
+        if(!(mode%2)) stack_push(t[0] , cmd);
+    
 
     }
 
@@ -179,28 +173,9 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
             breakpoint
         }
 
-        char ToDo = stack_pop(undo);
-        if(ToDo == '0' || ToDo == '9'){
-
-            char * target_char = calloc(1, sizeof(char));
-            target_char[0] = stack_pop(undo);
-
-            if(ToDo == '0'){
-                COMMAND(target_char , 1 , main_node , cmd , undo ,2);
-                COMMAND("1" , 1 , main_node , cmd , undo , 2);
-            }
-            else{
-                COMMAND(target_char , 1 , main_node , cmd , undo ,2);
-                COMMAND("2" , 1 , main_node , cmd , undo , 2);
-            }
-            free(target_char);
-        }
-
-        else if(ToDo == '1') COMMAND("2" , 1 , main_node , cmd , undo , 2);
-        else if(ToDo == '2') COMMAND("1" , 1 , main_node , cmd , undo , 2);
-        else if(INPUT_VALID(ToDo)){
-            COMMAND("9" , 1 , main_node , cmd , undo , 2);
-        }
+        char ToDo[] = {stack_pop(undo)};
+        
+        COMMAND(ToDo , 1 , main_node , cmd , undo , 2);
 
     }
 
@@ -219,18 +194,27 @@ void COMMAND(char t[] , i64 size , node ** main_node , stack ** cmd , stack ** u
             if(ToDo == '0'){
                 COMMAND(target_char , 1 , main_node , cmd , undo ,1);
                 COMMAND("1" , 1 , main_node , cmd , undo , 1);
+                stack_push('0' , undo);
             }
             else{
                 COMMAND(target_char , 1 , main_node , cmd , undo ,1);
                 COMMAND("2" , 1 , main_node , cmd , undo , 1);
+                stack_push('9' , undo);
             }
             free(target_char);
         }
 
-        else if(ToDo == '1') COMMAND("2" , 1 , main_node , cmd , undo , 1);
-        else if(ToDo == '2') COMMAND("1" , 1 , main_node , cmd , undo , 1);
+        else if(ToDo == '1'){
+            COMMAND("2" , 1 , main_node , cmd , undo , 1);
+            stack_push('1' , undo);
+        }
+        else if(ToDo == '2'){
+            COMMAND("1" , 1 , main_node , cmd , undo , 1);
+            stack_push('2' , undo);
+        } 
         else if(INPUT_VALID(ToDo)){
             COMMAND("9" , 1 , main_node , cmd , undo , 1);
+            stack_push(ToDo , undo);
         }
 
     }
