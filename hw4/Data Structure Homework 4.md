@@ -6,7 +6,7 @@
 
 (a.) Let n = T's level, then $2^{n-1}-1 < node  <= 2^n - 1$ (since T is a complete binary tree). Therefore, $2^{n-1}-1 < 400  <= 2^n - 1$ , $n=9$
 
-(b.) Since T is a complete binary tree, it has $node - 2^{level-1} + 1$ leaf nodes. According to (a.) , it has 9 levels. Therefore, it has $400 - 2^8 + 1 = 145$ leaf nodes.
+(b.) Complete binary tree has $ceil(node/2)$ leaf nodes = $400/2 = 200$.
 
 (c.) Since T is a complete binary tree with 9 levels, it is full on level 6, which has $2^{6-1} = 32$ nodes.
 
@@ -42,4 +42,27 @@ F.left_thread = L (was B)
 ```
 
 ### Question 4
+
+
+| |1|2|3|4|5|6|7|8|9|10|
+|-|-|-|-|-|-|-|-|-|-|-|
+|heap|20|25|30|35|28|50|65|45|50|43|
+|-min|25|28|30|35|43|50|65|45|50|   
+|+24|24|25|30|35|28|50|65|45|50|43|
+|-min|25|28|30|35|43|50|65|45|50|
+|+12|12|25|30|35|28|50|65|45|50|43|
+|-min|25|28|30|35|43|50|65|45|50|
+|+60|25|28|30|35|43|50|65|45|50|60|
+
+### Question 5
+
+First element 
+![alt text](q5a.png)
+
+Second element
+![alt text](q5b.png)
+
+Therefore, the third element is 9.
+![alt text](q5c.png)
+
 
