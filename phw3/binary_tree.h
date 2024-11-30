@@ -21,6 +21,12 @@ typedef struct _stack{
 
 } stack;
 
+typedef struct _numstack{
+    long double val;
+    struct _numstack * next;
+
+} num_stack;
+
 //node_stack : the structure for stack which store node
 typedef struct _queue{
     struct _tree * val;
@@ -30,6 +36,8 @@ typedef struct _queue{
 
 void push(stack ** head , char target);
 char pop(stack ** head);
+void push_num(num_stack ** head , long double target);
+long double pop_num(num_stack ** head);
 node * pop_node(node_queue ** head);
 void push_node(node_queue ** head , node * target);
 uint8_t operators_priority(char t);
@@ -42,9 +50,10 @@ void print_pre_order(node * root);
 void print_in_order(node * root);
 void DEBUG(node * root);
 node * postfixToTree(stack ** postfix);
+void treeToPostOrderStack(node * root , stack ** command);
 
 //buildTree : build a binary tree by the infix expression
-void buildTree(char command[]){
+node * buildTree(char command[]){
 
     
     
@@ -74,7 +83,7 @@ void buildTree(char command[]){
             while(last != ')'){
                 if(last == '?'){
                     printf("\e[1;31mError : This is not a valid infix expression\n");
-                    return;
+                    return NULL;
                 }
                 push(&postfix , last);
                 last = pop(&operators);
@@ -101,15 +110,7 @@ void buildTree(char command[]){
     node * root = postfixToTree(&postfix);
     
 
-    printf("\e[1;35mThe level-order of the expression tree: \e[0m\n");
-    print_level_order(root);
-
-    printf("\e[1;35mThe postfix expression: \e[0m");
-    print_post_order(root);
-
-    printf("\n\e[1;35mThe prefix expression: \e[0m");
-    print_pre_order(root);
-    printf("\n");
+    return root;
 
     /*
     printf("\n\e[1;35mThe Inorder expression: \e[0m");
@@ -120,6 +121,13 @@ void buildTree(char command[]){
     //DEBUG(root);
     
     
+}
+
+void treeToPostOrderStack(node * root , stack ** command){
+    if(!root) return;
+    push(command , root->val);
+    treeToPostOrderStack(root->right, command);
+    treeToPostOrderStack(root->left, command);
 }
 
 void DEBUG(node * root){
@@ -244,6 +252,19 @@ char pop(stack ** head){
 
 }
 
+long double pop_num(num_stack ** head){
+
+    if(*head == NULL) return 0;
+
+    long double result = (*head)->val;
+    num_stack * temp = (*head);
+    (*head) = (*head)->next;
+    free(temp);
+
+    return result;
+
+}
+
 void push_node(node_queue ** head , node * target){
 
     if(!(*head)){
@@ -260,6 +281,15 @@ void push_node(node_queue ** head , node * target){
 
 }
 
+
+void push_num(num_stack ** head , long double target){
+    
+    num_stack * new_node = (num_stack *)(calloc(1  , sizeof(stack)));
+    new_node->val = target;
+    new_node->next = *head;
+    *head = new_node;
+
+}
 //push target to the tail of the stack
 void push(stack ** head , char target){
     
