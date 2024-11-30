@@ -37,14 +37,19 @@ void print_stack(stack * head);
 void print_queue(node_queue * head);
 uint8_t isFull(node * cur);
 void print_level_order(node * root);
+void print_post_order(node * root);
+void print_pre_order(node * root);
+void print_in_order(node * root);
+void DEBUG(node * root);
+node * postfixToTree(stack ** postfix);
 
 //buildTree : build a binary tree by the infix expression
 void buildTree(char command[]){
 
-    node * root = NULL;
+    
     
     stack * operators = NULL;
-    stack * prefix = NULL;
+    stack * postfix = NULL;
 
     //printf("%d\n", strlen(command));
 
@@ -53,14 +58,14 @@ void buildTree(char command[]){
         
         /*
         printf("command : %c\n",command[i]);
-        printf("prefix : ");
-        print_stack(prefix);
+        printf("postfix : ");
+        print_stack(postfix);
         printf("operators : ");
         print_stack(operators);
         */
 
         if(isalpha(command[i]) || command[i] == ')'){
-            if(isalpha(command[i])) push(&prefix , command[i]);
+            if(isalpha(command[i])) push(&postfix , command[i]);
             else push(&operators , command[i]);
         }
             
@@ -71,7 +76,7 @@ void buildTree(char command[]){
                     printf("\e[1;31mError : This is not a valid infix expression\n");
                     return;
                 }
-                push(&prefix , last);
+                push(&postfix , last);
                 last = pop(&operators);
             }
         }
@@ -79,7 +84,7 @@ void buildTree(char command[]){
         else{
             char last = pop(&operators);
             while(last != ')' && last != '?' && operators_priority(last) > operators_priority(command[i])){
-                push(&prefix , last);
+                push(&postfix , last);
                 last = pop(&operators);
             }
             if(last != '?') push(&operators , last);
@@ -88,42 +93,98 @@ void buildTree(char command[]){
 
     }
     while(operators){
-        push(&prefix , pop(&operators));
+        push(&postfix , pop(&operators));
     }
 
-    while(prefix){
-        node * cur = root;
-        while(cur){
-            if(isFull(cur->left)) cur = cur->right;
-            else cur = cur->left;
-        }
-        cur = calloc(1,sizeof(node));
-        cur->val = pop(&prefix);
-        
-        
-    }
+    print_stack(postfix);
+
+    node * root = postfixToTree(&postfix);
+    
 
     printf("\e[1;35mThe level-order of the expression tree: \e[0m\n");
     print_level_order(root);
 
+    printf("\e[1;35mThe postfix expression: \e[0m");
+    print_post_order(root);
+
+    printf("\n\e[1;35mThe prefix expression: \e[0m");
+    print_pre_order(root);
+    printf("\n");
+
+    /*
+    printf("\n\e[1;35mThe Inorder expression: \e[0m");
+    print_in_order(root);
+    printf("\n");
+    */
+
+    //DEBUG(root);
+    
     
 }
 
+void DEBUG(node * root){
+    if(!root) return;
+    DEBUG(root->left);
+    DEBUG(root->right);
+    if(!root->left && !root->right)printf("%c" , root->val);
+}
+
+void print_post_order(node * root){
+
+    if(!root) return;
+    print_post_order(root->left);
+    print_post_order(root->right);
+    printf("%c",root->val);
+
+}
+
+void print_in_order(node * root){
+    if(!root) return;
+    print_in_order(root->left);
+    printf("%c",root->val);
+    print_in_order(root->right);
+    
+}
+
+void print_pre_order(node * root){
+
+    if(!root) return;
+    printf("%c",root->val);
+    print_pre_order(root->left);
+    print_pre_order(root->right);
+    
+}
+
+node * postfixToTree(stack ** postfix){
+
+    node * cur = (node *)malloc(sizeof(node));
+    cur->val = pop(postfix);
+    if(isalpha(cur->val)) return cur;
+    cur->left = postfixToTree(postfix);
+    cur->right = postfixToTree(postfix);
+    return cur;
+}
+
+
 void print_level_order(node * root){
 
-    node_queue * waitList;
+    node_queue * waitList = NULL;
     push_node(&waitList , root);
-    push_node(&waitList , NULL);
-    print_queue(waitList);
+
+    node_queue * next = NULL;
+
     while(waitList){
         node * cur = pop_node(&waitList);
-        if(!cur){
+        
+        printf("%c " , cur->val);
+        if(cur->left) push_node(&next , cur->left);
+        if(cur->right) push_node(&next , cur->right);
+        if(!waitList){
             printf("\n");
+            waitList = next;
+            next = NULL;
             continue;
         }
-        printf("%c " , cur->val);
-        if(cur->left) push_node(&waitList , cur->left);
-        if(cur->right) push_node(&waitList , cur->right);
     }
 
 }
@@ -149,7 +210,8 @@ void print_stack(stack * head){
 
 void print_queue(node_queue * head){
     while(head){
-        printf("%c" , head->val->val);
+        if(head->val) printf("%c" , head->val->val);
+        else printf("\n");
         head = head->next;
     }
     printf("\n");
