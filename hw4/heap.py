@@ -22,7 +22,7 @@ class heap:
                 p.append(x.right)
                 x = p.pop(0)
             
-            
+        self.heapify()
     
 
     def display(self , sep = " "):
@@ -140,18 +140,14 @@ def buildHeap(arr):
 
 if __name__ == '__main__':
 
-    root = buildHeap([20,25,30,35,28,50,65,45,50,43])
+    root = buildHeap([56,23,78,12,45,89,34,67,10,49])
     root.display()
     root.extract()
     root.display()
-    root.insert(24)
+    root.extract()
     root.display()
     root.extract()
     root.display()
-    root.insert(12)
-    root.display()
     root.extract()
-    root.display()
-    root.insert(60)
-    root.display()
+   
 
