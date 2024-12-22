@@ -36,8 +36,7 @@ int main(){
             token = strtok(NULL, " ");
         }
 
-    int availible = isAvailible(graph , n , tofree);
-    printf("%s\n" , (!availible ? "Yes" : "No"));
+    printf("%s\n" , (!isAvailible(graph , n , tofree) ? "Yes" : "No"));
 
     /*
     for(int j=1;j<=n;j++){

@@ -118,8 +118,16 @@ int count_atLeast(adj_list ** graph , int n){
             }
             else free[j] = 0;
         }
-        if(isAvailible(graph , n , free) == 0)
+        if(isAvailible(graph , n , free) == 1)
+            continue;
         possible = possible > free_cnt ? free_cnt : possible;
+
+        /*
+        if(free_cnt == 3){
+            for(int j=1;j<=n;j++) printf("%d ",free[j]);
+            printf("\n");
+        }*/
+
         //for(int j=1;j<=n;j++) printf("%d ",free[j]);
         //printf("\n");
     }
@@ -131,17 +139,27 @@ int count_atLeast(adj_list ** graph , int n){
 
 int isAvailible(adj_list ** graph , int n , int free[]){
 
+    
+
     int cnt = 0;
     int cycle = 0;
-    int leftandright = 0;
     int from[n+1];
+    int free_cnt = 0;
     for(int j=1;j<=n;j++) from[j] = -1;
 
     for(int j = 1 ; j < n + 1 && !cycle ; j++){
-        if(free[j]) continue;
-        if(from[j] == -1) cnt += 1;
+        if(free[j]){
+            free_cnt += 1;
+            continue;
+        }
+        if(from[j] == -1){
+            cnt += 1;
+            from[j] = j;
+        }
         adj_list *temp = graph[j];
         int pointer_length = 0;
+        int maybe = 0;
+
         while(temp){
             
             if(free[temp->v1] || free[temp->v2]){
@@ -150,34 +168,37 @@ int isAvailible(adj_list ** graph , int n , int free[]){
             else{
                 pointer_length += 1;
                 
-                if(from[temp->v2] == from[temp->v1] && from[temp->v1] != -1){
-                    cycle = 1;
-                    break;
+                
+                if(from[temp->v2] == from[temp->v1] && from[temp->v1] != -1 && temp->v1 != from[temp->v1]
+                && temp->v1 != from[temp->v2] && 
+                temp->v2 != from[temp->v1]
+                && temp->v2 != from[temp->v2]){
+                    maybe = 1;
                 }
-                if(from[j] != -1){
-                    if(temp->v1 == j){
-                        from[temp->v2] = from[j];
-                    }
-                    else{
-                        from[temp->v1] = from[j];
-                    }
-                }
-                else{
-                    if(temp->v1 == j){
+
+                if(temp->v1 == j){
                         from[temp->v2] = j;
                     }
-                    else{
-                        from[temp->v1] = j;
-                    }
+                else{
+                    from[temp->v1] = j;
                 }
                 temp = temp->next;
             }
         }
         if(pointer_length > 2) cycle = 1;
-        if(pointer_length == 2) leftandright += 1;
-        if(leftandright > 1) cycle = 1;
+        if(pointer_length == 2 && maybe) cycle = 1;
         
     }
+
+   /*
+    for(int j=1;j<=n;j++)
+        printf("%d ",from[j]);
+    printf("%d" , cycle);
+    printf("\n");
+    */
+    
+    
+    if(cnt > free_cnt + 1) return 1;
 
     return cycle;
 }
